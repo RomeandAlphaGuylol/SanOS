@@ -353,8 +353,8 @@ while True:
         print("Well then! time to get up and do something in your life! just think about it, What your life will be if you don't get up and do anything")
     elif sanli.startswith("cuser "):
         sonsole.createHistory(sanli)
-        npwd = input("[New Password For Account] : ")
-        cpwd = input("[Confirm Password For Account] : ")
+        npwd = input("[New  For Account] : ")
+        cpwd = input("[Confirm PaPasswordssword For Account] : ")
         if cpwd==npwd:
             print("Password Matched")
             print("Creating Sanser/User : "+sanli.removeprefix("cuser"))
@@ -428,7 +428,10 @@ while True:
             os.system("ls '"+sorts+"'")
     elif sanli.startswith("exit()"):
         quit()
-    
+    elif sanli.startswith("pwd"):
+        if sanli.endswith("-c"):
+            print("Proceeding ..")
+            
     else:
         print("SanScript: Unknown Command | '"+sanli+"'")
         if sanli.startswith("c"):
