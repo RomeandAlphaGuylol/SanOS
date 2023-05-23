@@ -1,0 +1,8 @@
+import os
+
+def debug(ftd):
+    if ftd.endswith(".py"):
+        os.system("python3 "+ftd)
+
+debugFile = input("File to Debug?: ");
+debug(debugFile);

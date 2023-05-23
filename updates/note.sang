@@ -1,0 +1,6 @@
+0110 = Untaken Decision
+01 = Small Updates, ask user if necessary
+10 = Big Updates (Bug Fixes etc) won't ask user anything will just installed
+1001 = No Changes made
+1010 = Minor Bug Fixes, asks user if thou wants to update
+0101 = Currently Unavailable
