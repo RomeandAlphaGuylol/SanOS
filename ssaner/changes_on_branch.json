@@ -1,6 +1,0 @@
-{
-    "SanScript": ["Compiler", "SsToPy"],
-    
-    "SanOS": ["SanScript", "sahome", "performance"]
-    
-}
