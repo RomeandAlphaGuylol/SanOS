@@ -3,7 +3,25 @@ import time
 import math
 import random
 from datetime import datetime
-
+class system:
+    def shutdown():
+        time.sleep(2)
+        print("Shutting down..")
+        time.sleep(1)
+        print("Closing daemons/services")
+        time.sleep(2)
+        print("[OK] Stopping Daemons")
+        time.sleep(2)
+        print("\n")
+        print("[OK] Exception for Shutdown Daemon")
+        time.sleep(2)
+        print("\n")
+        print("[OK] Shutting down daemon executing")
+        time.sleep(2)
+        print("\n")
+        print("[OK] Shutting down")
+        time.sleep(1)
+        quit()
 class SanScript:
     def storeVar(var, val):
         var = val
@@ -25,7 +43,7 @@ class brh:
             print("You don't have BRH/Admin controls")
 class user:
     def deleteUser():
-        os.chdir("saner")    
+        os.chdir("saner")
         os.chdir("brh")
         os.chdir("spwd")
         pwd = input("Current Password : ")
@@ -41,10 +59,10 @@ class user:
             os.chdir("brh")
             rootUserFile = open("root_user.sanos", "w")
             rootUserFile.write("")
-    
+
             os.chdir("spwd")
             openPwd = open("password.sapwd", "w")
-            
+
             openPwd.write("")
 
             os.chdir("..")
@@ -52,12 +70,30 @@ class user:
             os.chdir("..")
             print("User Account has been deleted!")
 
-        else:      
+        else:
             print("Incorrect Password!")
-        
-    
-
     class root:
+        def accss(pwd):
+
+                os.chdir("/saner/brh/spwd/")
+                pwd_file = open("password.sapwd", "r").read()
+                pwds = pwd_file.splitlines()
+                if pwds.__contains__(pwd):
+                    print("Correct Password!")
+                    print("Logging in as root ..")
+                    time.sleep(1)
+                    try:
+                        os.system("python3 root.py")
+                    except:
+                        print("Cannot file root ss :(")
+                else:
+                    print("Incorrect Password!")
+
+                    print("sanOS quit regarding security issues, are you YOU?!")
+                    quit()
+
+
+
         def login(pwd):
             try:
                 os.chdir("/saner/brh/spwd/")
@@ -72,13 +108,13 @@ class user:
                     print("sanOS quit regarding security issues, are you YOU?!")
                     quit()
 
-            
+
             except:
                 print("Please create atleast 1 root account to log in to!")
         def ENV_ROOT():
-            
+
             try:
-                os.chdir("saner")    
+                os.chdir("saner")
                 os.chdir("brh")
                 os.chdir("spwd")
                 pwd = input("Current Password : ")
@@ -93,7 +129,7 @@ class user:
                     os.chdir("ssaner")
                     fileSystem.ENV()
                     os.chdir("..")
-                else:      
+                else:
                     print("Incorrect Password!")
                 # Hello(1)
             except:
@@ -109,20 +145,20 @@ class user:
                     os.chdir("ssaner")
                     fileSystem.ENV()
                     os.chdir("..")
-                else:      
+                else:
                     print("Incorrect Password!")
                 # Hello(1)
     def createRoot(name, pwd):
-        
+
         os.chdir("saner")
 
         os.chdir("brh")
         rootUserFile = open("root_user.sanos", "w")
         rootUserFile.write(name+"=ALL\n")
-  
+
         os.chdir("spwd")
         createRootPwd = open("password.sapwd", "w")
-        
+
         createRootPwd.write(pwd)
         os.chdir("..")
         os.chdir("..")
@@ -137,7 +173,7 @@ class user:
             os.chdir("..")
             os.chdir("..")
             os.chdir("..")
-            
+
             try:
                 os.mkdir("npwd")
                 os.chdir("npwd")
@@ -180,7 +216,7 @@ class user:
                 os.chdir("..")
                 os.chdir("..")
                 os.chdir("..")
-                
+
 
     def createUser(type, name, pwd):
         if type=="root":
@@ -191,17 +227,21 @@ class sonsole:
     def clear():
         os.system("clear")
     def createHistory(cmd):
-        os.chdir("ssaner")
-        createHistoryFile = open("history.sanos", "w")
+        try:
+            os.chdir("ssaner")
+            createHistoryFile = open("history.sanos", "w")
 
-        createHistoryFile.write(cmd)
+            createHistoryFile.write(cmd)
 
-        os.chdir("..")
+            os.chdir("..")
+        except:
+            print("UNABLE TO CREATE HISTORY!s")
     def getHistory():
         os.chdir('ssaner')
         openHistoryFile = open("history.sanos", "r").read()
         jb_hist = openHistoryFile.splitlines()
         print(jb_hist)
+        os.chdir("..")
 class emof:
     def launch():
         os.chdir("emof")
@@ -212,17 +252,36 @@ class emof:
         except:
             print("[Note: use exit() command to exit out!]")
             os.system("./a.out")
+class machine:
+    def state():
+        print("ON")
+def autostart():
+    rmsfile = open("autostart.rms", "r").read()
+    if rmsfile.__contains__("on"):
+        if rmsfile.__contains__("swap.gave"):
+            if rmsfile.__contains__("true"):
+                os.system("sudo swapon /dev/sda3")
+            elif rmsfile.__contains__("false"):
+                pass
+        elif rmsfile.__contains__("wellsay;;"):
+            print("Wellsay is on!")
+        elif rmsfile.__contains__("wellsay"):
+            print("Expected verifier ';;'")
 print("SanOS by SanMick (c)")
+autostart()
 while True:
+    #The Sonsole
     sanli = input("❯ ")
     if sanli.startswith("ctd "):
-
+        #Tries to change directory
         try:
             os.chdir(sanli.removeprefix("ctd "))
         except:
             print("No directory/folder named: "+sanli.removeprefix("ctd"))
-        sonsole.createHistory("ctd")    
+            #This throws an error when theres no folder like saner have given.
+        sonsole.createHistory("ctd")
     elif sanli.startswith("cf "):
+        #Create File!
         os.chdir("sahome")
         createFile = open(sanli.removeprefix("cf "), "a")
         sonsole.createHistory(sanli)
@@ -249,28 +308,13 @@ while True:
     elif sanli=="cls":
         sonsole.createHistory(sanli)
         sonsole.clear()
-    
-    elif sanli=="lnch desktop":
-        sonsole.createHistory(sanli)
-        createMemFile = open("ram.sanos", "a")
-        openMemFile = open("ram.sanos", "w")
-        val = 10;
-        usemem = val=+1
-        usemem = val
-        usemem = str(usemem)
-        openMemFile.write(usemem+"\n")
-        print("mem usage: "+usemem)
 
-        try:
-            os.system("java Desktop.java")
-        except:
-            print("Unable to find Desktop file!")
+
     elif sanli.startswith("sanFo"):
         sonsole.createHistory(sanli)
         if sanli.endswith("-d"):
-            
-            os.system("neofetch --ascii_distro sanFo")
-            
+            os.system("neofetch --ascii_distro sanOS")
+
         else:
             os.system("neofetch --ascii_distro "+sanli.removeprefix("sanFo"))
 
@@ -288,7 +332,7 @@ while True:
         print(sanli)
         print("RESTART SANOS TO REGISTER YOUR VARIABLES")
     elif sanli.startswith("$var"):
-        
+
         openVarFilef = open("var.san", "r").read()
         variables = openVarFilef.splitlines()
         print(variables)
@@ -301,11 +345,11 @@ while True:
     elif sanli.startswith("swaponEquip "):
         sonsole.createHistory(sanli)
         os.system("sudo swapon "+sanli.removeprefix("swaponEquip "))
-    
+
     elif sanli.startswith("ENV"):
         sonsole.createHistory(sanli)
         print("You need Tree Permissions to access ENV Files!")
-    elif sanli.startswith("brh "):
+    elif sanli.startswith("brh"):
         sonsole.createHistory(sanli)
         if sanli.__contains__("ENV"):
             user.root.ENV_ROOT()
@@ -366,7 +410,7 @@ while True:
         sonsole.createHistory(sanli)
         wtfind = input("What do you want to find in the file? : ")
         os.system("grep "+sanli.removeprefix("fif ")+wtfind)
-    
+
     elif sanli.startswith("help"):
         sonsole.createHistory(sanli)
         os.chdir("ssaner")
@@ -382,7 +426,7 @@ while True:
     elif sanli.startswith("dlac"):
         sonsole.createHistory(sanli)
         print("You need BRH to do this!") # Idk why I named it as brh ahh
-    
+
     elif sanli.startswith("date"):
         sonsole.createHistory(sanli)
         print(datetime.today())
@@ -406,37 +450,116 @@ while True:
     elif sanli==" ":
         print("SanScript: Please enter a command!")
     elif sanli.startswith("jb"):
+        #Know the command which was entered just before
         sonsole.getHistory()
     elif sanli.startswith("gb"):
+        #Go back in dirs
         os.chdir("..")
     elif sanli.startswith("scd"):
+        #See Current Directory!
         os.system("pwd")
     elif sanli.startswith("deldir"):
-        os.removedirs(sanli.removeprefix("deldir "))
+        #Deletes a directory!
+        os.system("rm -rf "+sanli.removeprefix("deldir "))
     elif sanli.startswith("mkdir"):
+            #It tries to make a folder
             try:
+
                 os.mkdir(sanli.removeprefix("mkdir "))
+            #and if there is an issue! it doesn't let SanOS quit but prints an error like enter a valid file name or smth
             except:
                 print("Usage: mkdir <filename>")
-            
+
 
     elif sanli.startswith("*.dirs"):
         if sanli.endswith("-a"):
+            try:
+                os.chdir("sahome")
+            except:
+                pass
+            
             os.system("ls")
-        elif sanli.endswith("-s"):
-            sorts = input("sort: ")
-            os.system("ls '"+sorts+"'")
+            os.chdir("..")
+        elif sanli.endswith("-i"):
+            sorts = input("search: ")
+            try:
+                os.system("ls '"+sorts+"'")
+            except:
+                print("argdir: cannot access folder/file given")
+        else:
+            os.chdir("sahome")
+            
+            os.system("ls")
+            os.chdir("..")
     elif sanli.startswith("exit()"):
+        #Self Explanitory ig, YES IT QUITS WELLDONE YOU GUESSED IT
         quit()
     elif sanli.startswith("pwd"):
+        #The command is under coding .. :D!
         if sanli.endswith("-c"):
             print("Proceeding ..")
+    elif sanli.startswith("root"):
+        yn = input("This is a dangerous action, accessing ROOT like that do you still want to proceed? [y/n] : ")
+        if yn=="y":
+            pwdd = input("Your password: ")
+            user.root.accss(pwdd)
+        elif yn=="n":
+            print("Alright! thats a wise choice .. going back to normal-user SanOS!")
             
+    elif sanli.startswith("shutdown"):
+        system.shutdown()
+    elif sanli.startswith("python3"):
+        os.chdir("sahome")
+        os.system("python3 "+sanli.removeprefix("python3 "))
+    elif sanli.startswith("java"):
+        os.system("java "+sanli.removeprefix("java "))
+    elif sanli.startswith("daemon"):
+        if sanli.endswith("shutdown"):
+            print("Shutdown daemon: Daemon(Service) used for shutting down SanOS")
+            print("\n")
+        elif sanli.endswith("brh"):
+            print("BRH Daemon: Daemon(Service) used for entering into BRH mode")
+            print("\n")
+        else:
+            print("Unkown Daemon")
+            print("\n")
+    elif sanli.startswith("venv"):
+        
+        if sanli=="venv":
+            try:
+                os.chdir("ssaner")
+                history = open("history.sanos", "r").read()
+                if history.__contains__("venv init"):
+                    os.system("python --version")
+                    time.sleep(1)
+                    os.chdir("sahome")
+
+                    os.mkdir("venv")
+                    os.chdir("venv")
+                    os.system("touch main.py")
+                    os.system("touch properties.properties")
+                    os.system("echo 'venv -- py?true' >> venv.rms")
+                    print("Venv has been initialized")
+                    os.chdir("..")
+                    os.chdir("..")
+                else:
+                    print("Unable to initialize venv, intializer isn't implement. To fix this run the command `venv init`")
+            except:
+                print("unable to initialize venv.")
+        elif sanli.__contains__("init"):
+            sonsole.createHistory(sanli)
+            pass
+
     else:
         print("SanScript: Unknown Command | '"+sanli+"'")
         if sanli.startswith("c"):
+            #This just checks if its an error and it starts with any matching keywords
             print("Did you mean any of these? | cls, clear")
         elif sanli.startswith("*"):
             print("Did you mean any of these? | *.dirs")
         elif sanli.startswith("$"):
             print("Did you mean any of these? | $var")
+        elif sanli.startswith("d"):
+            print("Did you mean any of these? | dlac, deldir, del")
+        elif sanli.startswith("w"):
+            print("Did you mean mean any of these? | wellsay, wellsayf")
